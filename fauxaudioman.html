@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SignalFlow DSP Manual Slideshow</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a202c;
+            color: #e2e8f0;
+        }
+        .slide {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 80vh;
+            padding: 2rem;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .slide.active {
+            display: flex;
+            opacity: 1;
+        }
+        .title-text {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #63b3ed;
+            margin-bottom: 1rem;
+        }
+        .subtitle-text {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #a0aec0;
+            margin-bottom: 2rem;
+        }
+        .content-box {
+            background-color: #2d3748;
+            border-radius: 1rem;
+            padding: 2rem;
+            max-width: 900px;
+            width: 100%;
+            margin-top: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: left;
+        }
+        .list-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+        .list-item-number {
+            font-weight: bold;
+            font-size: 1.25rem;
+            color: #63b3ed;
+            margin-right: 1rem;
+        }
+        .code-box {
+            background-color: #1a202c;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            margin-top: 1rem;
+            font-family: 'Courier New', Courier, monospace;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-100 flex flex-col items-center justify-center min-h-screen p-4">
+
+    <div id="slides-container" class="w-full flex justify-center">
+
+        <!-- Slide 1: Cover Page -->
+        <div class="slide" id="slide-1">
+            <h1 class="title-text">SIGNALFLOW DSP</h1>
+            <h2 class="subtitle-text">User Manual</h2>
+            <p class="text-xl font-bold mb-8 text-gray-400">Model: SF-DSP-100</p>
+            <p class="text-lg text-gray-500">[Insert high-resolution product image here]</p>
+        </div>
+
+        <!-- Slide 2: Product Specifications - Physical -->
+        <div class="slide" id="slide-2">
+            <div class="content-box">
+                <h3 class="text-xl font-bold mb-4 text-white">1. Product Specifications</h3>
+                <h4 class="text-lg font-semibold mb-2 text-blue-300">Physical & Electrical</h4>
+                <ul class="list-disc list-inside space-y-2 text-gray-300">
+                    <li>**Dimensions:** 2U Rack Mount Chassis, 17.25" x 3.5" x 10" (W x H x D)</li>
+                    <li>**Weight:** 10.5 lbs (4.76 kg)</li>
+                    <li>**Power Requirements:** 100-240V AC, 50/60 Hz, 50W Max</li>
+                    <li>**Operating Temperature:** 0°C to 40°C (32°F to 104°F)</li>
+                    <li>**Rack Space:** 2U</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 3: Product Specifications - Audio Performance -->
+        <div class="slide" id="slide-3">
+            <div class="content-box">
+                <h3 class="text-xl font-bold mb-4 text-white">1. Product Specifications</h3>
+                <h4 class="text-lg font-semibold mb-2 text-blue-300">Audio Performance</h4>
+                <ul class="list-disc list-inside space-y-2 text-gray-300">
+                    <li>**Sample Rate:** 48 kHz</li>
+                    <li>**Bit Depth:** 24-bit</li>
+                    <li>**Frequency Response:** +0/-0.5 dB from 20 Hz to 20 kHz</li>
+                    <li>**Dynamic Range:** 112 dB</li>
+                    <li>**Total Harmonic Distortion (THD+N):**
+                        <ul class="list-circle list-inside ml-4 mt-1">
+                            <li>Unity Gain (0 dB): 0.002%</li>
+                            <li>Mid Gain (+30 dB): 0.003%</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 4: Product Specifications - I/O -->
+        <div class="slide" id="slide-4">
+            <div class="content-box">
+                <h3 class="text-xl font-bold mb-4 text-white">1. Product Specifications</h3>
+                <h4 class="text-lg font-semibold mb-2 text-blue-300">Inputs & Outputs</h4>
+                <ul class="list-disc list-inside space-y-2 text-gray-300">
+                    <li>**Analog Inputs:** 8 x Mic/Line XLR, 2 x 1/4" TRS Stereo Line Inputs</li>
+                    <li>**Digital I/O:** 1 x AES3 Digital Output (XLR), 1 x Modular Expansion Slot</li>
+                    <li>**Analog Outputs:** 1 x Stereo House Mix Bus, 12 x Assignable Stereo Mixes, 8 x Matrix Busses</li>
+                </ul>
+                <h4 class="text-lg font-semibold mt-4 mb-2 text-blue-300">Control & Networking</h4>
+                <ul class="list-disc list-inside space-y-2 text-gray-300">
+                    <li>**Network Protocol:** Dante (Primary)</li>
+                    <li>**Control Ports:** RS-232</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 5: Quick Start Guide -->
+        <div class="slide" id="slide-5">
+            <h3 class="text-xl font-bold mb-4 text-white">Quick Start Guide</h3>
+            <div class="content-box">
+                <div class="list-item">
+                    <span class="list-item-number">1.</span>
+                    <div>
+                        <span class="font-bold text-lg text-blue-300">Physical Installation:</span> Secure in rack, connect power, press **POWER**.
+                    </div>
+                </div>
+                <div class="list-item">
+                    <span class="list-item-number">2.</span>
+                    <div>
+                        <span class="font-bold text-lg text-blue-300">Network Configuration:</span> Connect Dante port to switch. Use Dante Controller.
+                    </div>
+                </div>
+                <div class="list-item">
+                    <span class="list-item-number">3.</span>
+                    <div>
+                        <span class="font-bold text-lg text-blue-300">Audio Connections:</span> Connect sources to analog inputs and destinations to analog outputs.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Operational Controls -->
+        <div class="slide" id="slide-6">
+            <h3 class="text-xl font-bold mb-4 text-white">Operational Controls and Menus</h3>
+            <div class="content-box">
+                <h4 class="text-lg font-semibold mb-2 text-blue-300">Front Panel Controls</h4>
+                <p class="text-gray-300">The front panel features a high-resolution LCD screen, **Rotary Encoder** for navigation, and dedicated **HOME**, **BACK**, and **MUTE** buttons. It also includes I/O meters and a headphone jack.</p>
+                <h4 class="text-lg font-semibold mt-4 mb-2 text-blue-300">Menu Navigation</h4>
+                <p class="text-gray-300">The menu is logically organized, with a **Home Screen** for an overview and a **Main Menu** for detailed control of **INPUTS**, **OUTPUTS**, **ROUTING**, **SYSTEM**, and **SETUP**.</p>
+            </div>
+        </div>
+
+        <!-- Slide 7: Troubleshooting -->
+        <div class="slide" id="slide-7">
+            <h3 class="text-xl font-bold mb-4 text-white">Troubleshooting</h3>
+            <div class="content-box">
+                <p class="font-bold text-lg text-blue-300">No Audio Output</p>
+                <p class="text-gray-300">Check gain settings and ensure the output is not muted.</p>
+                <div class="h-4"></div>
+                <p class="font-bold text-lg text-blue-300">Distorted Audio</p>
+                <p class="text-gray-300">Reduce input gain to prevent signal clipping.</p>
+                <div class="h-4"></div>
+                <p class="font-bold text-lg text-blue-300">No Dante Connection</p>
+                <p class="text-gray-300">Verify the Ethernet cable is connected and the link LEDs are on.</p>
+            </div>
+        </div>
+
+        <!-- Slide 8: Block Diagram - Overview -->
+        <div class="slide" id="slide-8">
+            <h3 class="text-xl font-bold mb-4 text-white">Block Diagram</h3>
+            <div class="content-box">
+                <p class="text-gray-300">The DSP's signal flow moves from left-to-right:</p>
+                <ul class="list-disc list-inside space-y-2 mt-4 text-gray-300">
+                    <li>**Inputs:** Analog and Digital inputs enter the system.</li>
+                    <li>**Processing Core:** Signals are processed and routed.</li>
+                    <li>**Outputs:** Processed signals are sent to the final outputs.</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Slide 9: Block Diagram - Signal Path -->
+        <div class="slide" id="slide-9">
+            <h3 class="text-xl font-bold mb-4 text-white">Block Diagram: Audio Signal Path</h3>
+            <div class="content-box">
+                <h4 class="text-lg font-semibold mb-2 text-blue-300">Inputs</h4>
+                <p class="text-gray-300">Analog signals are converted to digital. Digital signals from the Expansion Card go directly to the DSP Core.</p>
+                <h4 class="text-lg font-semibold mt-4 mb-2 text-blue-300">Processing Core</h4>
+                <p class="text-gray-300">This central block handles channel processing (**Gain, EQ, Dynamics, Delay**) and a **Mixing Matrix** that routes inputs to all 32 busses.</p>
+                <h4 class="text-lg font-semibold mt-4 mb-2 text-blue-300">Outputs</h4>
+                <p class="text-gray-300">Audio is converted back to analog or sent digitally via AES to the XLR outputs.</p>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="flex items-center justify-center mt-8 space-x-4">
+        <button id="prevBtn" class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-6 rounded-lg shadow-lg transition-all duration-300 ease-in-out transform hover:scale-105">
+            Previous
+        </button>
+        <span id="slide-counter" class="text-lg font-semibold text-gray-400">1 / 9</span>
+        <button id="nextBtn" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-6 rounded-lg shadow-lg transition-all duration-300 ease-in-out transform hover:scale-105">
+            Next
+        </button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const slides = document.querySelectorAll('.slide');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const slideCounter = document.getElementById('slide-counter');
+            let currentSlide = 0;
+            const totalSlides = slides.length;
+
+            const updateSlideCounter = () => {
+                slideCounter.textContent = `${currentSlide + 1} / ${totalSlides}`;
+            };
+
+            const showSlide = (n) => {
+                slides.forEach(slide => {
+                    slide.classList.remove('active');
+                });
+                slides[n].classList.add('active');
+                updateSlideCounter();
+            };
+
+            const nextSlide = () => {
+                currentSlide = (currentSlide + 1) % totalSlides;
+                showSlide(currentSlide);
+            };
+
+            const prevSlide = () => {
+                currentSlide = (currentSlid
