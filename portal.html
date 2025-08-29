@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prompting Training Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/x-icon;base64,iVBORw0KGgo=" type="image/x-icon">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .main-container {
+            width: 95%;
+            max-width: 1000px;
+            min-height: 700px;
+            background-color: #24292e;
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            padding: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .nav-button-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .nav-button {
+            background-color: #374151;
+            color: #ffffff;
+            font-weight: 600;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            transition: background-color 0.2s ease-in-out;
+            cursor: pointer;
+        }
+        .nav-button:hover {
+            background-color: #4b5563;
+        }
+        .nav-button.active {
+            background-color: #00bcd4;
+        }
+        .slideshow-section {
+            display: none;
+            flex-grow: 1;
+            padding: 1rem 0;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .slideshow-section.active {
+            display: flex;
+        }
+        .slide {
+            display: none;
+            flex-grow: 1;
+            animation: fadeIn 0.5s ease-in-out;
+            justify-content: center;
+            align-items: center;
+        }
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        h1 {
+            font-size: 2.25rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: #ffffff;
+        }
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #00bcd4;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        ul {
+            list-style-type: disc;
+            padding-left: 1.5rem;
+            margin-top: 0.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            color: #e0e0e0;
+        }
+        .quiz-question {
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #e0e0e0;
+        }
+        code {
+            background-color: #374151;
+            color: #ffffff;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.375rem;
+        }
+
+        /* Retro Theme for Foundational Tier */
+        .foundational-active-buttons .nav-button {
+            background-color: #5700A0;
+            color: #FFFFFF;
+            box-shadow: 0 0 10px rgba(193, 29, 255, 0.5);
+            animation: flicker 1.5s infinite alternate;
+        }
+        .foundational-active-buttons .nav-button:hover {
+            background-color: #7B00D9;
+        }
+        .retro-title-slide {
+            background-color: rgba(45, 0, 77, 0.9);
+            box-shadow: 0 0 30px rgba(193, 29, 255, 0.4);
+            position: relative;
+            border: 2px solid #5700A0;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 500px;
+        }
+        .retro-title-slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0.1) 0,
+                rgba(0, 0, 0, 0.1) 1px,
+                transparent 1px,
+                transparent 2px
+            );
+            pointer-events: none;
+            z-index: 10;
+        }
+        .retro-title-slide .main-title, .retro-title-slide .sub-title {
+            color: #FFFFFF;
+            animation: flicker 1.5s infinite alternate;
+        }
+        .retro-title-slide .main-title {
+            font-size: 3rem;
+        }
+        .retro-title-slide .sub-title {
+            font-size: 1.5rem;
+        }
+        @keyframes flicker {
+            0%, 100% { opacity: 1; }
+            5% { opacity: 0.8; }
+            10% { opacity: 1; }
+            15% { opacity: 0.6; }
+            20% { opacity: 1; }
+            25% { opacity: 0.9; }
+            30% { opacity: 1; }
+            35% { opacity: 0.7; }
+            40% { opacity: 1; }
+        }
+        /* End of Retro Theme CSS */
+    </style>
+</head>
+<body class="bg-gray-100">
+
+<div class="main-container">
+    <div id="nav-container" class="nav-button-container">
+        <button id="nav-foundational" class="nav-button active">Tier 1: Foundational</button>
+        <button id="nav-applied" class="nav-button">Tier 2: Applied</button>
+        <button id="nav-expert" class="nav-button">Tier 3: Expert</button>
+    </div>
+
+    <!-- Tier 1: Foundational Slideshow -->
+    <div id="foundational-section" class="slideshow-section active">
+        <div id="foundational-slideshow-content" class="flex flex-col flex-grow w-full">
+            <!-- Slides for Tier 1 -->
+            <div class="slide active flex-col text-center retro-title-slide">
+                <h1 class="main-title font-bold">Foundational Prompting Skills</h1>
+                <p class="sub-title mt-4">A Guide to Effective Communication with AI</p>
+            </div>
+            <div class="slide flex-col">
+                <h2 class="text-2xl font-semibold text-teal-400">Clear and Specific Instructions</h2>
+                <p class="mt-4 text-lg text-white">The more specific your prompt, the better the output. A vague prompt will yield a generic result.</p>
+                <ul class="list-disc list-inside mt-4 text-lg text-white">
+                    <li><p>**Vague:** <code class="bg-gray-800 text-white px-2 py-1 rounded-md text-sm">Write about a dog.</code></p></li>
+                    <li><p>**Specific:** <code class="bg-gray-800 text-white px-2 py-1 rounded-md text-sm">Write a 200-word short story about a stray dog who finds a home. The story should be from the dog's perspective and have a hopeful tone.</code></p></li>
+                </ul>
+            </div>
+            <div class="slide flex-col">
+                <h2 class="text-2xl font-semibold text-teal-400">Providing Context</h2>
+                <p class="mt-4 text-lg text-white">Context is essential for helping the model understand the exact domain or situation you are interested in.</p>
+                <ul class="list-disc list-inside mt-4 text-lg text-white">
+                    <li><p>**Prompt without context:** <code class="bg-gray-800 text-white px-2 py-1 rounded-md text-sm">Summarize the following article.</code></p></li>
+                    <li><p>**Prompt with context:** <code class="bg-gray-800 text-white px-2 py-1 rounded-md text-sm">Summarize the following article about the company's financial report, focusing on key performance indicators and future outlook.</code></p></li>
+                </ul>
+            </div>
+            <div class="slide flex-col">
+                <h2 class="text-2xl font-semibold text-teal-400">Using Delimiters</h2>
+                <p class="mt-4 text-lg text-white">Delimiters separate instructions from content, preventing the model from mixing them up. This is crucial for complex or lengthy prompts.</p>
+                <ul class="list-disc list-inside mt-4 text-lg text-white">
+                    <li><p>**Example:** <code class="bg-gray-800 text-white px-2 py-1 rounded-md text-sm">Summarize the text in three key points. ```Here is the long article text.```</code></p></li>
+                </ul>
+            </div>
+            <div class="slide flex-col">
+                <h2 class="text-2xl font-semibold text-teal-400">Few-Shot Prompting</h2>
+                <p class="mt-4 text-lg text-white">This technique involves providing one or more examples to demonstrate the desired behavior. It teaches the model in-context.</p>
+                <p class="mt-2 text-lg text-white">**Purpose:** To guide the model by showing it exactly what you want, rather than just telling it.</p>
+            </div>
+            <div class="slide flex-col">
+                <h2 class="text-2xl font-semibold text-teal-400">Articulating Output Format</h2>
+                <p class="mt-4 text-lg text-white">Using examples to define the output format is crucial for few-shot prompting.</p>
+                <div class="mt-4 bg-gray-800 p-4 rounded-lg text-white">
+                    <p>Translate the following English words to French. Your output should be a numbered list with the translation next to each word.</p>
+                    <p class="mt-2 text-white">**Example:**</p>
+                    <code class="text-sm">1. Cat -> Chat</code>
+                    <code class="text-sm block">2. Dog -> Chien</code>
+                    <p class="mt-2">Now translate:</p>
+                    <code class="text-sm block">3. Bird -></code>
+                </div>
+            </div>
+            <div class="slide flex-col text-center">
+                <h2 class="text-2xl font-semibold text-teal-400">Quiz Time!</h2>
+                <p class="mt-4 text-lg font-bold text-white">To get your feedback, you must return to this chat.</p>
+                <ul class="list-none text-white text-left text-lg mt-4 w-full">
+                    <li>1. Open Gemini in another window.</li>
+                    <li>2. Copy and paste the quiz questions into the new chat.</li>
+                    <li>3. Give your answers to Gemini to receive feedback.</li>
+                    <li>4. Pin the chat so you can reference it later.</li>
+                </ul>
+            </div>
+            <div class="slide flex-col">
+                <h2 class="text-2xl font-semibold text-teal-400">Foundational Prompting Skills Quiz</h2>
+                <div class="mt-4 text-white">
+                    <p class="quiz-question">1. Define **few-shot prompting** and explain its main purpose.</p>
+                    <p class="quiz-question">2. Describe the function of **delimiters** and provide a simple example of their use.</p>
+                    <p class="quiz-question">3. What is the primary risk of not using delimiters when the instructions and content are both long and complex?</p>
+                    <p class="quiz-question">4. Explain why providing **context** to a model is a fundamental skill in this tier.</p>
+                    <p class="quiz-question">5. Write a prompt that uses an example to train a model to respond with a specific tone (e.g., a formal, professional tone).</p>
+                </div>
+            </div>
+            <div class="slide flex-col">
+                <h2 class="text-2xl font-semibold text-teal-400">Foundational Prompting Skills Quiz</h2>
+                <div class="mt-4 text-white">
+                    <p class="quiz-question">6. What is the primary benefit of writing **clear, specific, and detailed instructions** in a prompt?</p>
+                    <p class="quiz-question">7. Consider a prompt that simply says "Write a short story." What single element from this tier could you add to dramatically improve the quality and relevance of the output?</p>
+                    <p class="quiz-question">8. Construct a prompt that requires the model to provide its output in a specific format, such as a numbered list of three key steps.</p>
+                    <p class="quiz-question">9. Why is the ability to articulate the desired output format through **examples** so crucial for few-shot prompting?</p>
+                    <p class="quiz-question">10. Create a prompt for a summary task that uses a delimiter to separate the instructions from the content to be summarized.</p>
+                </div>
+            </div>
+        </div>
+        <div class="flex justify-between mt-8 w-full">
+            <button id="foundational-prev-btn" class="px-6 py-2 bg-gray-600 text-gray-100 font-bold rounded-lg transition-colors hover:bg-gray-500">Previous</button>
+            <button id="foundational-next-btn" class="px-6 py-2 bg-teal-500 text-white font-bold rounded-lg transition-colors hover:bg-teal-600">Next</button>
+        </div>
+    </div>
+
+    <!-- Tier 2: Applied Slideshow -->
+    <div id="applied-section" class="slideshow-section">
+        <div id="applied-slideshow-content" class="flex flex-col flex-grow w-full">
+            <!-- Slides for Tier 2 -->
+            <div class="slide active flex-col text-center">
+                <h1 class="text-5xl font-bold text-white">Applied Prompting Skills</h1>
+                <p class="text-2xl text-white mt-4">A Guide to Tailoring AI for Professional Disciplines</p>
+            </div>
+            <div class="slide flex-col">
+                <h2 class="text-2xl font-semibold text-teal-400">Introduction to Applied Prompting</h2>
+                <p class="mt-4 text-lg text-white">This tier focuses on tailoring prompts for specific professional use cases. The goal is to move beyond generic prompting and apply skills to an industry's needs.</p>
+                <ul class="list-disc list-inside mt-4 text-lg text-white">
+                    <li><p>Prompting for software development</p></li>
+                    <li><p>Prompting for healthcare</p></li>
+                    <li><p>Prompting for marketing</p></li>
+                    <li><p>Prompting for finance</p></li>
+                </ul>
+            </div>
+            <div class="slide flex-col">
+                <h2 class="text-2xl font-semibold text-teal-400">Tailoring for Brand Voice</h2>
+                <p class="mt-4 text-lg text-white">To tailor a prompt for a specific brand, you must include explicit instructions on tone, style, and keywords. This often requires few-shot examples.</p>
+                <div class="mt-4 bg-gray-800 p-4 rounded-lg text-white">
+                    <p>Generate marketing copy for a new social media app called "Connect."</p>
+                    <p class="mt-2 text-white font-bold">Brand Voice:</p>
+                    <p class="text-white">Casual, friendly, and modern. Use emojis and address the user directly. Never use jargon like "synergy" or "paradigm."</p>
+                    <p class="mt-2 text-white">**Prompt Example:** `Generate 3 short social media posts about our app, Connect. Our voice is friendly and casual. Address the user directly and use emojis. Here is an example: "Our new app is for you! It's all about making real connections. 🎉 Get it now and start chatting! 👋"`</p>
+                </div>
+            </div>
+            <div class="slide flex-col">
+                <h2 class="text-2xl font-semibold text-teal-400">Highlighting Features for a Specific Market</h2>
+                <p class="mt-4 text-lg text-white">For a specific market like luxury real estate, a prompt should tell the model to focus on high-end features and paint a picture of an exclusive lifestyle.</p>
+                <div class="mt-4 bg-gray-800 p-4 rounded-lg text-white">
+                    <p>Generate a property description for a luxury home.</p>
+                    <p class="mt-2 text-white font-bold">Key Elements:</p>
+                    <ul class="list-disc list-inside mt-2 text-white">
+                        <li>Focus on "bespoke" and "curated" features.</li>
+                        <li>Emphasize exclusivity and opulence.</li>
+                        <li>Use elegant and descriptive language.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="slide flex-col">
+                <h2 class="text-2xl font-semibold text-teal-400">Prompting in Healthcare</h2>
+                <p class="mt-4 text-lg text-white">An "applied discipline" in healthcare could be clinical note summarization. The goal is to extract key information for a busy clinician.</p>
+                <div class="mt-4 bg-gray-800 p-4 rounded-lg text-white">
+                    <p>Prompt for note summarization:</p>
+                    <code class="text-sm block">"Summarize the patient's medical history, primary symptoms, and recent test results from the following clinical notes. List key information in bullet points. Use triple quotes as your delimiter."</code>
+                </div>
+            </div>
+            <div class="slide flex-col">
+                <h2 class="text-2xl font-semibold text-teal-400">Goal of Applied Prompting</h2>
+                <p class="mt-4 text-lg text-white">The primary goal of applying prompting skills to a specific industry is to **increase efficiency and relevance.** By moving beyond generic instructions, you can produce highly specialized, accurate, and valuable output that saves time and fits a professional need.</p>
+            </div>
+            <div class="slide flex-col">
+                <h2 class="text-2xl font-semibold text-teal-400">Code Generation and Style Guides</h2>
+                <p class="mt-4 text-lg text-white">To ensure code generation follows a style guide, you can explicitly state the rules in your prompt. This is a form of **constraint-based prompting.**</p>
+                <div class="mt-4 bg-gray-800 p-4 rounded-lg text-white">
+                    <p>**Prompt Example:** `Generate a Python function to calculate the factorial of a number. Ensure the code strictly follows PEP 8 style guidelines. All variable names must be in snake_case. Include docstrings for the function.`</p>
+                </div>
+            </div>
+            <div class="slide flex-col">
+                <h2 class="text-2xl font-semibold text-teal-400">Elements for Text-to-Image Prompts</h2>
+                <p class="mt-4 text-lg text-white">For image generation, a prompt needs to be highly specific with descriptive keywords to get the desired result. Three key elements are:</p>
+                <ul class="list-disc list-inside mt-4 text-lg text-white">
+                    <li><p>**Subject:** What is the main object or person? (e.g., "A golden retriever playing in a park").</p></li>
+                    <li><p>**Style:** What is the artistic style? (e.g., "in the style of a watercolor painting").</p></li>
+                    <li><p>**Setting & Mood:** Where and what is the atmosphere? (e.g., "on a sunny autumn day, full of joy").</p></li>
+                </ul>
+            </div>
+            <div class="slide flex-col">
+                <h2 class="text-2xl font-semibold text-teal-400">Streamlining Administrative Tasks</h2>
+                <p class="mt-4 text-lg text-white">Prompts for administrative tasks often use summarization and extraction techniques to get to the core information quickly.</p>
+                <div class="mt-4 bg-gray-800 p-4 rounded-lg text-white">
+                    <p>**Prompt Example:** `Extract the following from the patient intake form: full name, date of birth, chief complaint, and a brief summary of their medical history. List the output in a structured format.`</p>
+                </div>
+            </div>
+            <div class="slide flex-col">
+                <h2 class="text-2xl font-semibold text-teal-400">Analyzing Financial Data</h2>
+                <p class="mt-4 text-lg text-white">To analyze financial data, you must provide the raw data and instruct the model to perform a specific calculation or analysis.</p>
+                <div class="mt-4 bg-gray-800 p-4 rounded-lg text-white">
+                    <p>Prompt example using a few-shot approach:</p>
+                    <code class="text-sm block">"Analyze the following company earnings report for the debt-to-equity ratio. Formula: Total Debt / Total Equity. Data: [Insert earnings data here]. Output only the calculated ratio, like this: 'Ratio: 1.25'."</code>
+                </div>
+            </div>
+            <div class="slide flex-col">
+                <h2 class="text-2xl font-semibold text-teal-400">Foundational vs. Applied</h2>
+                <p class="mt-4 text-lg text-white">**Foundational techniques** are the basic building blocks (e.g., delimiters, few-shot prompting). They are general and can be applied to any task.</p>
+                <p class="mt-2 text-lg text-white">**Applied disciplines** are the practical application of these foundational skills to a specific industry or profession. They use the foundational techniques to solve a specialized problem.</p>
+            </div>
+            <div class="slide flex-col">
+                <h2 class="text-2xl font-semibold text-teal-400">Specialized Prompts for Software Dev</h2>
+                <p class="mt-4 text-lg text-white">A generic prompt for "software development" is less effective because it lacks specificity. It may return a basic algorithm but won't consider specific languages, dependencies, best practices, or code style. A specialized prompt ensures the output is immediately useful and production-ready.</p>
+            </div>
+            <div class="slide flex-col text-center">
+                <h2 class="text-2xl font-semibold text-teal-400">Quiz Time!</h2>
+                <p class="mt-4 text-lg font-bold text-white">To get your feedback, you must return to this chat.</p>
+                <ul class="list-none text-white text-left text-lg mt-4 w-full">
+                    <li>1. Open Gemini in another window.</li>
+                    <li>2. Copy and paste the quiz questions into the new chat.</li>
+                    <li>3. Give your answers to Gemini to receive feedback.</li>
+                    <li>4. Pin the chat so you can reference it later.</li>
+                </ul>
+            </div>
+            <div class="slide flex-col">
+                <h2 class="text-2xl font-semibold text-teal-400">Applied Prompting Skills Quiz</h2>
+                <div class="mt-4 text-white">
+                    <p class="quiz-question">1. Why is a generic prompt for "software development" less effective than a specialized one?</p>
+                    <p class="quiz-question">2. In the finance industry, how could a prompt be used to analyze a company's earnings report for a specific metric like "debt-to-equity ratio"?</p>
+                    <p class="quiz-question">3. How would you design a prompt to generate marketing copy that is specifically tailored to a tech startup's brand voice?</p>
+                    <p class="quiz-question">4. Explain the difference between a foundational prompting technique (like few-shot) and an applied discipline (like optimizing for a specific industry).</p>
+                    <p class="quiz-question">5. A prompt for text-to-image generation needs to be highly specific. What are at least three key elements you would include?</p>
+                </div>
+            </div>
+            <div class="slide flex-col">
+                <h2 class="text-2xl font-semibold text-teal-400">Applied Prompting Skills Quiz</h2>
+                <div class="mt-4 text-white">
+                    <p class="quiz-question">6. What is an example of an "applied discipline" in the healthcare field, and how would you craft a prompt for it?</p>
+                    <p class="quiz-question">7. How would you modify a prompt for a "code generation" task to ensure the output adheres to a specific company's style guide (e.g., PEP 8 for Python)?</p>
+                    <p class="quiz-question">8. Explain how a prompt for a real estate agent could be tailored to create a property description that highlights a home's specific features for a luxury market.</p>
+                    <p class="quiz-question">9. What is the primary goal of applying prompting skills to a specific industry's needs?</p>
+                    <p class="quiz-question">10. How would you prompt a model to streamline an administrative task in a clinical setting, such as patient intake form summarization?</p>
+                </div>
+            </div>
+        </div>
+        <div class="flex justify-between mt-8 w-full">
+            <button id="applied-prev-btn" class="px-6 py-2 bg-gray-600 text-gray-100 font-bold rounded-lg transition-colors hover:bg-gray-500">Previous</button>
+            <button id="applied-next-btn" class="px-6 py-2 bg-teal-500 text-white font-bold rounded-lg transition-colors hover:bg-teal-600">Next</button>
+        </div>
+    </div>
+    
+    <!-- Tier 3: Expert Slideshow -->
+    <div id="expert-section" class="slideshow-section">
+        <div id="expert-slideshow-content" class="flex flex-col flex-grow w-full">
+            <!-- Slides for Tier 3 -->
+            <div class="slide active flex-col text-center">
+                <h1 class="text-5xl font-bold text-white">Expert-Level Concepts</h1>
+                <p class="text-2xl text-white mt-4">A Guide to Advanced AI Integration</p>
+            </div>
+            <div class="slide flex-col">
+                <h2 class="text-2xl font-semibold text-teal-400">Retrieval Augmented Generation (RAG)</h2>
+                <p class="mt-4 text-lg text-white">RAG is a technique that augments a model's knowledge with external data sources. The model first retrieves relevant information from a separate database or document set and then uses that information to formulate its response. This prevents hallucinations and ensures the output is based on the most current and accurate data.</p>
+            </div>
+            <div class="slide flex-col">
+                <h2 class="text-2xl font-semibold text-teal-400">AI Governance Layers</h2>
+                <p class="mt-4 text-lg text-white">AI governance refers to the policies and frameworks put in place to manage and oversee the development and use of AI systems. This includes layers for data security, access control, and ensuring compliance with regulations. Implementing a strong governance layer is crucial for preventing security risks and misuse of the AI.</p>
+            </div>
+            <div class="slide flex-col">
+                <h2 class="text-2xl font-semibold text-teal-400">Ethical Considerations</h2>
+                <p class="mt-4 text-lg text-white">At the expert level, it's essential to consider the ethical implications of AI deployment. This includes mitigating bias in the data, ensuring transparency in decision-making, and preventing the misuse of AI for harmful purposes. This is what differentiates a basic course from a high-value consulting engagement.</p>
+            </div>
+            <div class="slide flex-col text-center">
+                <h2 class="text-2xl font-semibold text-teal-400">Quiz Time!</h2>
+                <p class="mt-4 text-lg font-bold text-white">To get your feedback, you must return to this chat.</p>
+                <ul class="list-none text-white text-left text-lg mt-4 w-full">
+                    <li>1. Open Gemini in another window.</li>
+                    <li>2. Copy and paste the quiz questions into the new chat.</li>
+                    <li>3. Give your answers to Gemini to receive feedback.</li>
+                    <li>4. Pin the chat so you can reference it later.</li>
+                </ul>
+            </div>
+            <div class="slide flex-col">
+                <h2 class="text-2xl font-semibold text-teal-400">Expert-Level Concepts Quiz</h2>
+                <div class="mt-4 text-white">
+                    <p class="quiz-question">1. In a clinical setting, how could RAG be used to ensure an AI assistant provides accurate and up-to-date information for a doctor's diagnosis?</p>
+                    <p class="quiz-question">2. What is the primary purpose of an AI governance layer in a corporate environment?</p>
+                    <p class="quiz-question">3. Why is it considered an expert-level concept to address ethical considerations in AI development?</p>
+                    <p class="quiz-question">4. Explain how a company could use RAG to create a customer-facing chatbot that answers questions based on a proprietary knowledge base.</p>
+                    <p class="quiz-question">5. What is one example of an ethical consideration that goes beyond security risks and misuse in AI?</p>
+                </div>
+            </div>
+            <div class="slide flex-col">
+                <h2 class="text-2xl font-semibold text-teal-400">Expert-Level Concepts Quiz</h2>
+                <div class="mt-4 text-white">
+                    <p class="quiz-question">6. What is the primary function of Retrieval Augmented Generation (RAG)?</p>
+                    <p class="quiz-question">7. Describe how an AI governance layer helps prevent misuse of an AI system.</p>
+                    <p class="quiz-question">8. What is the key difference between a basic prompting course and a high-value consulting engagement focused on AI? </p>
+                    <p class="quiz-question">9. How does RAG differ from a traditional model that only uses its pre-trained knowledge to answer questions?</p>
+                    <p class="quiz-question">10. Provide an example of a security risk that an AI governance layer is designed to prevent.</p>
+                </div>
+            </div>
+        </div>
+        <div class="flex justify-between mt-8 w-full">
+            <button id="expert-prev-btn" class="px-6 py-2 bg-gray-600 text-gray-100 font-bold rounded-lg transition-colors hover:bg-gray-500">Previous</button>
+            <button id="expert-next-btn" class="px-6 py-2 bg-teal-500 text-white font-bold rounded-lg transition-colors hover:bg-teal-600">Next</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const navButtons = document.querySelectorAll('.nav-button');
+        const sections = document.querySelectorAll('.slideshow-section');
+        const navContainer = document.getElementById('nav-container');
+
+        navButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const targetSectionId = button.id.replace('nav-', '') + '-section';
+                
+                navButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                
+                sections.forEach(section => section.classList.remove('active'));
+                document.getElementById(targetSectionId).classList.add('active');
+
+                if (button.id === 'nav-foundational') {
+                    navContainer.classList.add('foundational-active-buttons');
+                } else {
+                    navContainer.classList.remove('foundational-active-buttons');
+                }
+            });
+        });
+
+        const slideshows = {
+            'foundational': {
+                slides: document.getElementById('foundational-section').querySelectorAll('.slide'),
+                currentSlide: 0,
+            },
+            'applied': {
+                slides: document.getElementById('applied-section').querySelectorAll('.slide'),
+                currentSlide: 0,
+            },
+            'expert': {
+                slides: document.getElementById('expert-section').querySelectorAll('.slide'),
+                currentSlide: 0,
+            },
+        };
+
+        function showSlide(tier, index) {
+            slideshows[tier].slides.forEach((slide, i) => {
+                slide.classList.remove('active');
+                if (i === index) {
+                    slide.classList.add('active');
+                }
+            });
+            updateButtons(tier);
+        }
+
+        function updateButtons(tier) {
+            const prevBtn = document.getElementById(`${tier}-prev-btn`);
+            const nextBtn = document.getElementById(`${tier}-next-btn`);
+            
+            if (prevBtn) prevBtn.style.visibility = slideshows[tier].currentSlide === 0 ? 'hidden' : 'visible';
+            if (nextBtn) nextBtn.style.visibility = slideshows[tier].currentSlide === slideshows[tier].slides.length - 1 ? 'hidden' : 'visible';
+        }
+
+        document.getElementById('foundational-prev-btn').addEventListener('click', () => {
+            slideshows.foundational.currentSlide = Math.max(0, slideshows.foundational.currentSlide - 1);
+            showSlide('foundational', slideshows.foundational.currentSlide);
+        });
+
+        document.getElementById('foundational-next-btn').addEventListener('click', () => {
+            slideshows.foundational.currentSlide = Math.min(slideshows.foundational.slides.length - 1, slideshows.foundational.currentSlide + 1);
+            showSlide('foundational', slideshows.foundational.currentSlide);
+        });
+
+        document.getElementById('applied-prev-btn').addEventListener('click', () => {
+            slideshows.applied.currentSlide = Math.max(0, slideshows.applied.currentSlide - 1);
+            showSlide('applied', slideshows.applied.currentSlide);
+        });
+
+        document.getElementById('applied-next-btn').addEventListener('click', () => {
+            slideshows.applied.currentSlide = Math.min(slideshows.applied.slides.length - 1, slideshows.applied.currentSlide + 1);
+            showSlide('applied', slideshows.applied.currentSlide);
+        });
+        
+        document.getElementById('expert-prev-btn').addEventListener('click', () => {
+            slideshows.expert.currentSlide = Math.max(0, slideshows.expert.currentSlide - 1);
+            showSlide('expert', slideshows.expert.currentSlide);
+        });
+
+        document.getElementById('expert-next-btn').addEventListener('click', () => {
+            slideshows.expert.currentSlide = Math.min(slideshows.expert.slides.length - 1, slideshows.expert.currentSlide + 1);
+            showSlide('expert', slideshows.expert.currentSlide);
+        });
+
+        // Set initial state
+        showSlide('foundational', 0);
+        navContainer.classList.add('foundational-active-buttons');
+    });
+</script>
+
+</body>
+</html>

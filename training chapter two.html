@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Applied Prompting Skills Slideshow</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .slide-container {
+            width: 95%;
+            max-width: 800px;
+            min-height: 500px;
+            background-color: #24292e;
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            padding: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .slide {
+            display: none;
+            flex-grow: 1;
+            animation: fadeIn 0.5s ease-in-out;
+            justify-content: center;
+            align-items: center;
+        }
+        .slide.active {
+            display: flex;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        h1 {
+            font-size: 2.25rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: #ffffff;
+        }
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #00bcd4;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        ul {
+            list-style-type: disc;
+            padding-left: 1.5rem;
+            margin-top: 0.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            color: #e0e0e0;
+        }
+        .quiz-question {
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #e0e0e0;
+        }
+        code {
+            background-color: #374151;
+            color: #ffffff;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.375rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+<div class="slide-container">
+    <div id="slideshow-content" class="flex flex-col flex-grow">
+        <!-- Slide 1: Title -->
+        <div id="slide-1" class="slide active flex-col text-center">
+            <h1 class="text-5xl font-bold text-white">Applied Prompting Skills</h1>
+            <p class="text-2xl text-white mt-4">A Guide to Tailoring AI for Professional Disciplines</p>
+        </div>
+
+        <!-- Slide 2: Applied Disciplines -->
+        <div id="slide-2" class="slide flex-col">
+            <h2 class="text-2xl font-semibold text-teal-400">Applied Disciplines</h2>
+            <p class="mt-4 text-lg text-white">This tier focuses on tailoring prompts for specific professional use cases. The goal is to move beyond generic prompting and apply skills to an industry's needs.</p>
+            <ul class="list-disc list-inside mt-4 text-lg text-white">
+                <li><p>Prompting for software development</p></li>
+                <li><p>Prompting for healthcare</p></li>
+                <li><p>Prompting for marketing</p></li>
+                <li><p>Prompting for finance</p></li>
+            </ul>
+        </div>
+
+        <!-- Slide 3: Optimizing for Specific Tasks -->
+        <div id="slide-3" class="slide flex-col">
+            <h2 class="text-2xl font-semibold text-teal-400">Optimizing for Specific Tasks</h2>
+            <p class="mt-4 text-lg text-white">Applied prompting involves optimizing for a specific task within a professional field.</p>
+            <ul class="list-disc list-inside mt-4 text-lg text-white">
+                <li><p>**Example:** Generating an image for visual media, or summarizing administrative tasks in a clinical setting.</p></li>
+            </ul>
+        </div>
+
+        <!-- Slide 4: Quiz Introduction -->
+        <div id="slide-4" class="slide flex-col text-center">
+            <h2 class="text-2xl font-semibold text-teal-400">Quiz Time!</h2>
+            <p class="mt-4 text-lg font-bold text-white">To get your feedback, you must return to this chat.</p>
+            <ul class="list-none text-white text-left text-lg mt-4 w-full">
+                <li>1. Open Gemini in another window.</li>
+                <li>2. Copy and paste the quiz questions into the new chat.</li>
+                <li>3. Give your answers to Gemini to receive feedback.</li>
+                <li>4. Pin the chat so you can reference it later.</li>
+            </ul>
+        </div>
+
+        <!-- Slide 5: Quiz Questions 1-5 -->
+        <div id="slide-5" class="slide flex-col">
+            <h2 class="text-2xl font-semibold text-teal-400">Applied Prompting Skills Quiz</h2>
+            <div class="mt-4 text-white">
+                <p class="quiz-question">1. How would you design a prompt to generate marketing copy that is specifically tailored to a tech startup's brand voice?</p>
+                <p class="quiz-question">2. Explain how a prompt for a real estate agent could be tailored to create a property description that highlights a home's specific features for a luxury market.</p>
+                <p class="quiz-question">3. What is an example of an "applied discipline" in the healthcare field, and how would you craft a prompt for it?</p>
+                <p class="quiz-question">4. What is the primary goal of applying prompting skills to a specific industry's needs?</p>
+                <p class="quiz-question">5. How would you modify a prompt for a "code generation" task to ensure the output adheres to a specific company's style guide (e.g., PEP 8 for Python)?</p>
+            </div>
+        </div>
+
+        <!-- Slide 6: Quiz Questions 6-10 -->
+        <div id="slide-6" class="slide flex-col">
+            <h2 class="text-2xl font-semibold text-teal-400">Applied Prompting Skills Quiz</h2>
+            <div class="mt-4 text-white">
+                <p class="quiz-question">6. A prompt for text-to-image generation needs to be highly specific. What are at least three key elements you would include?</p>
+                <p class="quiz-question">7. How would you prompt a model to streamline an administrative task in a clinical setting, such as patient intake form summarization?</p>
+                <p class="quiz-question">8. In the finance industry, how could a prompt be used to analyze a company's earnings report for a specific metric like "debt-to-equity ratio"?</p>
+                <p class="quiz-question">9. Explain the difference between a foundational prompting technique (like few-shot) and an applied discipline (like optimizing for a specific industry).</p>
+                <p class="quiz-question">10. Why is a generic prompt for "software development" less effective than a specialized one?</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation buttons -->
+    <div class="flex justify-between mt-8">
+        <button id="prev-btn" class="px-6 py-2 bg-gray-600 text-gray-100 font-bold rounded-lg transition-colors hover:bg-gray-500">Previous</button>
+        <button id="next-btn" class="px-6 py-2 bg-teal-500 text-white font-bold rounded-lg transition-colors hover:bg-teal-600">Next</button>
+    </div>
+</div>
+
+<script>
+    const slides = document.querySelectorAll('.slide');
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+    let currentSlide = 0;
+
+    function showSlide(index) {
+        slides.forEach((slide, i) => {
+            slide.classList.remove('active');
+            if (i === index) {
+                slide.classList.add('active');
+            }
+        });
+        updateButtons();
+    }
+
+    function updateButtons() {
+        prevBtn.style.visibility = currentSlide === 0 ? 'hidden' : 'visible';
+        nextBtn.style.visibility = currentSlide === slides.length - 1 ? 'hidden' : 'visible';
+    }
+
+    prevBtn.addEventListener('click', () => {
+        if (currentSlide > 0) {
+            currentSlide--;
+            showSlide(currentSlide);
+        }
+    });
+
+    nextBtn.addEventListener('click', () => {
+        if (currentSlide < slides.length - 1) {
+            currentSlide++;
+            showSlide(currentSlide);
+        }
+    });
+
+    // Initial setup
+    showSlide(currentSlide);
+</script>
+
+</body>
+</html>
