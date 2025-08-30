@@ -174,6 +174,7 @@
             margin-top: 2rem;
             max-width: 80%;
             line-height: 1.5;
+            color: #fff !important;
         }
         @keyframes flicker {
             0%, 100% { opacity: 1; }
@@ -185,6 +186,16 @@
             30% { opacity: 1; }
             35% { opacity: 0.7; }
             40% { opacity: 1; }
+        }
+
+        /* Fade-in for list items */
+        .list-item-fade {
+            opacity: 0;
+            animation: fadeInListItem 1s forwards;
+        }
+        @keyframes fadeInListItem {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         /* End of Retro Theme CSS */
     </style>
@@ -216,10 +227,14 @@
             <div class="slide flex-col">
                 <h2 class="text-2xl font-semibold text-teal-400">Clear and Specific Instructions</h2>
                 <p class="mt-4 text-lg text-white">The more specific your prompt, the better the output. A vague prompt will yield a generic result.</p>
-                <ul class="list-disc list-inside mt-4 text-lg text-white">
-                    <li><p>**Vague:** <code class="bg-gray-800 text-white px-2 py-1 rounded-md text-sm">Write about a dog.</code></p></li>
-                    <li><p>**Specific:** <code class="bg-gray-800 text-white px-2 py-1 rounded-md text-sm">Write a 200-word short story about a stray dog who finds a home. The story should be from the dog's perspective and have a hopeful tone.</code></p></li>
-                </ul>
+                <div class="mt-4 flex flex-col gap-4 text-white">
+                    <div class="list-item-fade">
+                        <p>**Vague:** <code class="bg-gray-800 text-white px-2 py-1 rounded-md text-sm">Write about a dog.</code></p>
+                    </div>
+                    <div class="list-item-fade">
+                        <p>**Specific:** <code class="bg-gray-800 text-white px-2 py-1 rounded-md text-sm">Write a 200-word short story about a stray dog who finds a home. The story should be from the dog's perspective and have a hopeful tone.</code></p>
+                    </div>
+                </div>
             </div>
             <div class="slide flex-col">
                 <h2 class="text-2xl font-semibold text-teal-400">Providing Context</h2>
@@ -573,4 +588,3 @@
 
 </body>
 </html>
-html
