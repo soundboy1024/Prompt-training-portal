@@ -191,7 +191,7 @@
         /* Fade-in for list items */
         .list-item-fade {
             opacity: 0;
-            animation: fadeInListItem 1s forwards;
+            animation: fadeInListItem 2s forwards;
         }
         @keyframes fadeInListItem {
             from { opacity: 0; transform: translateY(10px); }
@@ -521,19 +521,26 @@
             'foundational': {
                 slides: document.getElementById('foundational-section').querySelectorAll('.slide'),
                 currentSlide: 0,
+                nextBtn: document.getElementById('foundational-next-btn'),
+                prevBtn: document.getElementById('foundational-prev-btn'),
             },
             'applied': {
                 slides: document.getElementById('applied-section').querySelectorAll('.slide'),
                 currentSlide: 0,
+                nextBtn: document.getElementById('applied-next-btn'),
+                prevBtn: document.getElementById('applied-prev-btn'),
             },
             'expert': {
                 slides: document.getElementById('expert-section').querySelectorAll('.slide'),
                 currentSlide: 0,
+                nextBtn: document.getElementById('expert-next-btn'),
+                prevBtn: document.getElementById('expert-prev-btn'),
             },
         };
 
         function showSlide(tier, index) {
-            slideshows[tier].slides.forEach((slide, i) => {
+            const slideshow = slideshows[tier];
+            slideshow.slides.forEach((slide, i) => {
                 slide.classList.remove('active');
                 if (i === index) {
                     slide.classList.add('active');
@@ -543,42 +550,30 @@
         }
 
         function updateButtons(tier) {
-            const prevBtn = document.getElementById(`${tier}-prev-btn`);
-            const nextBtn = document.getElementById(`${tier}-next-btn`);
+            const slideshow = slideshows[tier];
+            const prevBtn = slideshow.prevBtn;
+            const nextBtn = slideshow.nextBtn;
             
-            if (prevBtn) prevBtn.style.visibility = slideshows[tier].currentSlide === 0 ? 'hidden' : 'visible';
-            if (nextBtn) nextBtn.style.visibility = slideshows[tier].currentSlide === slideshows[tier].slides.length - 1 ? 'hidden' : 'visible';
+            if (prevBtn) prevBtn.style.visibility = slideshow.currentSlide === 0 ? 'hidden' : 'visible';
+            if (nextBtn) nextBtn.style.visibility = slideshow.currentSlide === slideshow.slides.length - 1 ? 'hidden' : 'visible';
         }
 
-        document.getElementById('foundational-prev-btn').addEventListener('click', () => {
-            slideshows.foundational.currentSlide = Math.max(0, slideshows.foundational.currentSlide - 1);
-            showSlide('foundational', slideshows.foundational.currentSlide);
-        });
+        function handleSlideTransition(tier, direction) {
+            const slideshow = slideshows[tier];
+            if (direction === 'next' && slideshow.currentSlide < slideshow.slides.length - 1) {
+                slideshow.currentSlide++;
+            } else if (direction === 'prev' && slideshow.currentSlide > 0) {
+                slideshow.currentSlide--;
+            }
+            showSlide(tier, slideshow.currentSlide);
+        }
 
-        document.getElementById('foundational-next-btn').addEventListener('click', () => {
-            slideshows.foundational.currentSlide = Math.min(slideshows.foundational.slides.length - 1, slideshows.foundational.currentSlide + 1);
-            showSlide('foundational', slideshows.foundational.currentSlide);
-        });
-
-        document.getElementById('applied-prev-btn').addEventListener('click', () => {
-            slideshows.applied.currentSlide = Math.max(0, slideshows.applied.currentSlide - 1);
-            showSlide('applied', slideshows.applied.currentSlide);
-        });
-
-        document.getElementById('applied-next-btn').addEventListener('click', () => {
-            slideshows.applied.currentSlide = Math.min(slideshows.applied.slides.length - 1, slideshows.applied.currentSlide + 1);
-            showSlide('applied', slideshows.applied.currentSlide);
-        });
-        
-        document.getElementById('expert-prev-btn').addEventListener('click', () => {
-            slideshows.expert.currentSlide = Math.max(0, slideshows.expert.currentSlide - 1);
-            showSlide('expert', slideshows.expert.currentSlide);
-        });
-
-        document.getElementById('expert-next-btn').addEventListener('click', () => {
-            slideshows.expert.currentSlide = Math.min(slideshows.expert.slides.length - 1, slideshows.expert.currentSlide + 1);
-            showSlide('expert', slideshows.expert.currentSlide);
-        });
+        document.getElementById('foundational-prev-btn').addEventListener('click', () => handleSlideTransition('foundational', 'prev'));
+        document.getElementById('foundational-next-btn').addEventListener('click', () => handleSlideTransition('foundational', 'next'));
+        document.getElementById('applied-prev-btn').addEventListener('click', () => handleSlideTransition('applied', 'prev'));
+        document.getElementById('applied-next-btn').addEventListener('click', () => handleSlideTransition('applied', 'next'));
+        document.getElementById('expert-prev-btn').addEventListener('click', () => handleSlideTransition('expert', 'prev'));
+        document.getElementById('expert-next-btn').addEventListener('click', () => handleSlideTransition('expert', 'next'));
 
         // Set initial state
         showSlide('foundational', 0);
